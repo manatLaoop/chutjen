@@ -43,10 +43,6 @@ dependencies:
   carousel_slider: ^4.2.1
   adaptive_dialog: ^1.6.3
   responsive_table: ^0.2.0+2
-  table_sticky_headers: ^2.0.0
-  horizontal_data_table: ^3.6.2+1
-  
-
 dev_dependencies:
   flutter_test:
     sdk: flutter

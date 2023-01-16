@@ -4,7 +4,6 @@ import 'package:chutjen/src/model/product_Edit_model.dart';
 import 'package:chutjen/src/model/product_model.dart';
 import 'package:chutjen/style/style.dart';
 import 'package:flutter/material.dart';
-import 'package:horizontal_data_table/horizontal_data_table.dart';
 
 InputDecoration inputDecoration(
     {Text? lable, double? redius, double? errtexthight}) {
@@ -37,31 +36,7 @@ Widget Alertdialog(
         backgroundColor: Colors.white,
         title: Text("ยืนยันรายการอัปเดต"),
         content: Container(
-          child: Container(
-            child: HorizontalDataTable(
-              leftHandSideColumnWidth: 600,
-              rightHandSideColumnWidth: 100,
-              tableHeight: 500,
-              isFixedHeader: false,
-              headerWidgets: [
-                Container(
-                  color: Colors.red,
-                  height: 50,
-                  width: 50,
-                  child: Text('test1'),
-                ),
-                Container(
-                  color: Colors.red,
-                  height: 50,
-                  width: 50,
-                  child: Text('test1'),
-                ),
-              ],
-              leftSideItemBuilder: generateFirstColumnRow,
-              rightSideItemBuilder: generateRightHandSideColumnRow,
-              itemCount: 3,
-            ),
-          ),
+          child: Container(),
         ),
         actions: <Widget>[
           TextButton(
