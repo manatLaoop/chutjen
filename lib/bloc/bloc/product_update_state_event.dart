@@ -6,3 +6,7 @@ abstract class ProductUpdateStateEvent extends Equatable {
   @override
   List<Object> get props => [];
 }
+
+class ProductUpdateStateEventconfirm extends ProductUpdateStateEvent {}
+
+class ProductUpdateStateEventCancel extends ProductUpdateStateEvent {}

@@ -16,12 +16,14 @@ class AddProduct extends StatefulWidget {
 }
 
 List<ProductModelcontroller> Itemdtail = [];
+late Productsmodel datasendtoBackend = Productsmodel();
 
 class _AddProductState extends State<AddProduct> {
 //.................
   Map<String, dynamic> dataObj = {'happiness': null, 'price': null};
 
   Productsmodel productsmodel = Productsmodel();
+  PriceDtail priceDtail = PriceDtail();
   int pseparate = 1;
   String? pnames;
   TextInputType? textInputType;
@@ -116,10 +118,12 @@ class _AddProductState extends State<AddProduct> {
                                       (e) {
                                         return DropdownMenuItem(
                                           onTap: () {
+                                            print(e.id);
+                                            productsmodel.productid = e.id;
+                                            productsmodel.pcolor = e.pcolor;
+                                            productsmodel.addminid = 'addmin';
                                             productsmodel.pseparatetype =
                                                 e.pseparatetype;
-                                            productsmodel.pname = e.pname;
-                                            productsmodel.pcolor = e.pcolor;
                                           },
                                           value: e.id,
                                           child: Text('${e.pname}'),
@@ -349,7 +353,10 @@ class _AddProductState extends State<AddProduct> {
                                                         context: context,
                                                         lable: productsmodel
                                                             .pname
-                                                            .toString());
+                                                            .toString(),
+                                                        productsmodel:
+                                                            productsmodel,
+                                                        Itemdtail: Itemdtail);
                                                   },
                                                 );
                                               }

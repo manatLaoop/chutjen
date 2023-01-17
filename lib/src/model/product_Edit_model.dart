@@ -62,12 +62,11 @@ class Productsmodel {
 
 class PriceDtail {
   PriceDtail({
-    this.price,
     this.dtail,
+    this.price,
   });
-
-  String? price;
   String? dtail;
+  String? price;
 
   factory PriceDtail.fromJson(Map<String, dynamic> json) => PriceDtail(
         price: json["Price"],

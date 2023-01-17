@@ -1,6 +1,7 @@
 // ignore_for_file: prefer_function_declarations_over_variables
 
 import 'package:chutjen/bloc/address/address_bloc.dart';
+import 'package:chutjen/bloc/bloc/product_update_state_bloc.dart';
 import 'package:chutjen/src/pages/home/index_page.dart';
 import 'package:chutjen/src/pages/register/register_page.dart';
 import 'package:flutter/material.dart';
@@ -17,6 +18,8 @@ class Myapp extends StatelessWidget {
   Widget build(BuildContext context) {
     final addressBloc = BlocProvider<AddressBloc>(
         create: (BuildContext context) => AddressBloc());
+    final updateproductBloc = BlocProvider<ProductUpdateStateBloc>(
+        create: (BuildContext context) => ProductUpdateStateBloc());
     return MultiBlocProvider(
       providers: [addressBloc],
       child: MaterialApp(

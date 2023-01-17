@@ -9,4 +9,5 @@ class API {
   static String Tambons = 'tambons';
   static String register = 'register';
   static String productmodel = 'productmodel';
+  static String updatePrice = 'updateprice';
 }

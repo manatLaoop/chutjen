@@ -1,9 +1,14 @@
-// ignore_for_file: prefer_const_constructors, unnecessary_string_interpolations
+// ignore_for_file: prefer_const_constructors, unnecessary_string_interpolations, avoid_print
 
 import 'package:chutjen/src/model/product_Edit_model.dart';
 import 'package:chutjen/src/model/product_model.dart';
+import 'package:chutjen/src/services/network_service.dart';
 import 'package:chutjen/style/style.dart';
 import 'package:flutter/material.dart';
+
+import '../../../../bloc/bloc/product_update_state_bloc.dart';
+
+final NetworkService networkService = NetworkService();
 
 InputDecoration inputDecoration(
     {Text? lable, double? redius, double? errtexthight}) {
@@ -28,7 +33,11 @@ class modeltest {
   final String age;
 }
 
-Widget Alertdialog({required BuildContext context, required String lable}) {
+Widget Alertdialog(
+    {required BuildContext context,
+    required String lable,
+    required Productsmodel productsmodel,
+    required List<ProductModelcontroller> Itemdtail}) {
   return Stack(children: [
     Container(
       color: Colors.black45,
@@ -47,22 +56,49 @@ Widget Alertdialog({required BuildContext context, required String lable}) {
         ),
       ),
       actions: <Widget>[
-        btnConfirm(context, title: 'ยกเลิก', colros: Colors.redAccent),
-        btnConfirm(context, title: 'ยืนยัน', colros: Colors.lightGreen),
+        btnConfirm(
+          context,
+          title: 'ยกเลิก',
+          colros: Colors.redAccent,
+          stateChange: false,
+        ),
+        btnConfirm(context,
+            title: 'ยืนยัน',
+            colros: Colors.lightGreen,
+            stateChange: true,
+            Itemdtail: Itemdtail,
+            productsmodel: productsmodel),
       ],
     ),
   ]);
 }
 
 TextButton btnConfirm(BuildContext context,
-    {required String title, required Color colros}) {
+    {required String title,
+    required Color colros,
+    required bool stateChange,
+    List<ProductModelcontroller>? Itemdtail,
+    Productsmodel? productsmodel}) {
   return TextButton(
     child: Text(
       '$title',
       style: headerStyle(colors: colros, fontSize: 18),
     ),
     onPressed: () {
-      Navigator.of(context).pop();
+      if (stateChange == true) {
+        PriceDtail priceDtail = PriceDtail();
+
+        productsmodel!.priceDtail = Itemdtail?.map((e) {
+          priceDtail.dtail = e.dtail!.text;
+          priceDtail.price = e.price!.text;
+          return priceDtail;
+        }).cast<PriceDtail>().toList();
+        print(productsmodel.priceDtail?.length);
+        networkService.UpdateproductPrice(data: productsmodel);
+        Navigator.of(context).pop();
+      } else {
+        Navigator.of(context).pop();
+      }
     },
   );
 }

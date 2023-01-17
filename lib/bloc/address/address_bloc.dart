@@ -15,7 +15,7 @@ part 'address_state.dart';
 class AddressBloc extends Bloc<AddressEvent, AddressInitial> {
   User usermodel = User();
   AddressBloc() : super(AddressInitial(aumphers: [], tumsbons: [])) {
-    on<Getrovinces>(
+    on<Getprovinces>(
       (event, emit) {},
     );
 
