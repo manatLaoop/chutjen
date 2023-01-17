@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, unused_import
+// ignore_for_file: prefer_const_constructors, unnecessary_string_interpolations
 
 import 'package:chutjen/src/model/product_Edit_model.dart';
 import 'package:chutjen/src/model/product_model.dart';
@@ -22,42 +22,48 @@ InputDecoration inputDecoration(
 }
 
 // ...................
+class modeltest {
+  modeltest({required String this.name, required String this.age});
+  final String name;
+  final String age;
+}
 
-Widget Alertdialog(
-    {required BuildContext context,
-    required List<ProductModelcontroller> data,
-    required Productsmodel productModel}) {
-  return Stack(
-    children: [
-      Container(
-        color: Colors.black45,
-      ),
-      AlertDialog(
-        backgroundColor: Colors.white,
-        title: Text("ยืนยันรายการอัปเดต"),
-        content: Container(
-          child: Container(),
+Widget Alertdialog({required BuildContext context, required String lable}) {
+  return Stack(children: [
+    Container(
+      color: Colors.black45,
+    ),
+    AlertDialog(
+      backgroundColor: Colors.white,
+      title: Text("ยืนยันรายการอัปเดต"),
+      content: Container(
+        child: SizedBox(
+          height: 50,
+          child: Center(
+              child: Text(
+            '$lable',
+            style: headerStyle(colors: Colors.lightGreen),
+          )),
         ),
-        actions: <Widget>[
-          TextButton(
-            child: Text(
-              "ยกเลิก",
-              style: headerStyle(colors: Colors.redAccent, fontSize: 18),
-            ),
-            onPressed: () {
-              Navigator.of(context).pop();
-            },
-          ),
-          TextButton(
-            child: Text(
-              "ยืนยัน",
-              style: headerStyle(colors: Colors.lightBlue, fontSize: 18),
-            ),
-            onPressed: () {},
-          ),
-        ],
       ),
-    ],
+      actions: <Widget>[
+        btnConfirm(context, title: 'ยกเลิก', colros: Colors.redAccent),
+        btnConfirm(context, title: 'ยืนยัน', colros: Colors.lightGreen),
+      ],
+    ),
+  ]);
+}
+
+TextButton btnConfirm(BuildContext context,
+    {required String title, required Color colros}) {
+  return TextButton(
+    child: Text(
+      '$title',
+      style: headerStyle(colors: colros, fontSize: 18),
+    ),
+    onPressed: () {
+      Navigator.of(context).pop();
+    },
   );
 }
 

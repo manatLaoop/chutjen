@@ -8,7 +8,6 @@ import 'package:chutjen/style/style.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-
 class AddProduct extends StatefulWidget {
   const AddProduct({Key? key}) : super(key: key);
 
@@ -16,11 +15,12 @@ class AddProduct extends StatefulWidget {
   State<AddProduct> createState() => _AddProductState();
 }
 
+List<ProductModelcontroller> Itemdtail = [];
+
 class _AddProductState extends State<AddProduct> {
 //.................
-
   Map<String, dynamic> dataObj = {'happiness': null, 'price': null};
-  List<ProductModelcontroller> Itemdtail = [];
+
   Productsmodel productsmodel = Productsmodel();
   int pseparate = 1;
   String? pnames;
@@ -347,9 +347,9 @@ class _AddProductState extends State<AddProduct> {
                                                   builder: (BuildContext) {
                                                     return Alertdialog(
                                                         context: context,
-                                                        data: Itemdtail,
-                                                        productModel:
-                                                            productsmodel);
+                                                        lable: productsmodel
+                                                            .pname
+                                                            .toString());
                                                   },
                                                 );
                                               }

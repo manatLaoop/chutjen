@@ -20,9 +20,11 @@ class Myapp extends StatelessWidget {
     return MultiBlocProvider(
       providers: [addressBloc],
       child: MaterialApp(
-          debugShowCheckedModeBanner: false,
-          theme: ThemeData(primarySwatch: Colors.green),
-          home: Index_page()),
+        debugShowCheckedModeBanner: false,
+        theme: ThemeData(primarySwatch: Colors.green),
+        // home: Index_page(),
+        home: Index_page(),
+      ),
     );
   }
 }
