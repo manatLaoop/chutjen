@@ -69,12 +69,12 @@ class PriceDtail {
   String? price;
 
   factory PriceDtail.fromJson(Map<String, dynamic> json) => PriceDtail(
-        price: json["Price"],
         dtail: json["Dtail"],
+        price: json["Price"],
       );
 
   Map<String, dynamic> toJson() => {
-        "Price": price,
         "Dtail": dtail,
+        "Price": price,
       };
 }

@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_const_constructors, unnecessary_string_interpolations, avoid_print
+// ignore_for_file: prefer_const_constructors, unnecessary_string_interpolations, avoid_print, non_constant_identifier_names, camel_case_types, avoid_unnecessary_containers
 
 import 'package:chutjen/src/model/product_Edit_model.dart';
 import 'package:chutjen/src/model/product_model.dart';
@@ -86,14 +86,13 @@ TextButton btnConfirm(BuildContext context,
     ),
     onPressed: () {
       if (stateChange == true) {
-        PriceDtail priceDtail = PriceDtail();
-
-        productsmodel!.priceDtail = Itemdtail?.map((e) {
+        List<PriceDtail>? datapriceDtail = Itemdtail?.map((e) {
+          PriceDtail priceDtail = PriceDtail();
           priceDtail.dtail = e.dtail!.text;
           priceDtail.price = e.price!.text;
           return priceDtail;
         }).cast<PriceDtail>().toList();
-        print(productsmodel.priceDtail?.length);
+        productsmodel!.priceDtail = datapriceDtail;
         networkService.UpdateproductPrice(data: productsmodel);
         Navigator.of(context).pop();
       } else {

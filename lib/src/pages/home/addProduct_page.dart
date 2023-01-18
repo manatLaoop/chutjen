@@ -119,11 +119,18 @@ class _AddProductState extends State<AddProduct> {
                                         return DropdownMenuItem(
                                           onTap: () {
                                             print(e.id);
-                                            productsmodel.productid = e.id;
-                                            productsmodel.pcolor = e.pcolor;
-                                            productsmodel.addminid = 'addmin';
-                                            productsmodel.pseparatetype =
-                                                e.pseparatetype;
+                                            setState(() {
+                                              productsmodel.pname = e.pname;
+                                              productsmodel.productid = e.id;
+                                              productsmodel.pcolor = e.pcolor;
+
+                                              productsmodel.addminid =
+                                                  '63b2e71ce0d22bb73e90754b';
+                                              productsmodel.pseparatetype =
+                                                  e.pseparatetype;
+
+                                              pseparate = e.pseparate!;
+                                            });
                                           },
                                           value: e.id,
                                           child: Text('${e.pname}'),
@@ -180,7 +187,7 @@ class _AddProductState extends State<AddProduct> {
                                                           alignment:
                                                               Alignment.center,
                                                           child: Text(
-                                                            'ระดับหน่วยวัด',
+                                                            'หน่วยวัด/${productsmodel.pseparatetype} ',
                                                             style: TextStyle(
                                                                 fontStyle:
                                                                     FontStyle
@@ -408,7 +415,7 @@ class _AddProductState extends State<AddProduct> {
         return null;
       },
       controller: Itemdtail[Itemdtail.indexOf(e)].price,
-      keyboardType: pseparate == 1 ? TextInputType.number : TextInputType.text,
+      keyboardType: pseparate == 1 ? TextInputType.text : TextInputType.text,
       decoration: inputDecoration(redius: 8),
       onChanged: (value) {
         setState(() {

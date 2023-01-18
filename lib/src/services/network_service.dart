@@ -89,19 +89,20 @@ class NetworkService {
     return productsmodelFromJson(jsonEncode(responses.data));
   }
 
-  UpdateproductPrice({required Productsmodel data}) {
+  void UpdateproductPrice({required Productsmodel data}) async {
     final Url = API.BaseUrl + API.updatePrice;
 
-    var datatest = {
+    var updatedata = {
       'addminid': data.addminid,
-      'pname': data.pname,
       'productid': data.productid,
       'pseparatetype': data.pseparatetype,
-      'priceDtail': data.priceDtail
+      'pcolor': data.pcolor,
+      'priceDtail': data.priceDtail,
     };
 
-    print(jsonEncode(datatest));
+    print(jsonEncode(updatedata));
 
-    // Response updateproductPrice = _dio.post(Url, data: {}) as Response;
+    Response updateproductPrice =
+        await _dio.post(Url, data: updatedata) as Response;
   }
 }
