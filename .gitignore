@@ -81,6 +81,7 @@ Latest commit f7b444e 3 days ago
 132 lines (119 sloc)  2.53 KB
 
 # Miscellaneous
+
 *.class
 *.lock
 *.log
@@ -125,7 +126,7 @@ analysis_benchmark.json
 
 # packages file containing multi-root paths
 .packages.generated
-
+.fvm/flutter_sdk
 # Flutter/Dart/Pub related
 **/doc/api/
 .dart_tool/
