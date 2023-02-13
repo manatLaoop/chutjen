@@ -7,6 +7,7 @@ import 'package:chutjen/src/services/network_service.dart';
 import 'package:chutjen/style/style.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 
 class AddProduct extends StatefulWidget {
   const AddProduct({Key? key}) : super(key: key);
@@ -468,6 +469,124 @@ class _AddProductState extends State<AddProduct> {
           onPressed: () {},
         ),
       ],
+    );
+  }
+
+  Widget Alertdialog(
+      {required BuildContext context,
+      required String lable,
+      required Productsmodel productsmodel,
+      required List<ProductModelcontroller> Itemdtail}) {
+    return Stack(children: [
+      Container(
+        color: Colors.black45,
+      ),
+      AlertDialog(
+        backgroundColor: Colors.white,
+        title: Text("ยืนยันรายการอัปเดต"),
+        content: Container(
+          child: SizedBox(
+            height: 50,
+            child: Center(
+                child: Text(
+              '$lable',
+              style: headerStyle(colors: Colors.lightGreen),
+            )),
+          ),
+        ),
+        actions: <Widget>[
+          btnConfirm(
+            context,
+            title: 'ยกเลิก',
+            colros: Colors.redAccent,
+            stateChange: false,
+          ),
+          btnConfirm(context,
+              title: 'ยืนยัน',
+              colros: Colors.lightGreen,
+              stateChange: true,
+              Itemdtail: Itemdtail,
+              productsmodel: productsmodel),
+        ],
+      ),
+    ]);
+  }
+
+  TextButton btnConfirm(BuildContext context,
+      {required String title,
+      required Color colros,
+      required bool stateChange,
+      List<ProductModelcontroller>? Itemdtail,
+      Productsmodel? productsmodel}) {
+    return TextButton(
+      child: Text(
+        '$title',
+        style: headerStyle(colors: colros, fontSize: 18),
+      ),
+      onPressed: () {
+        if (stateChange == true) {
+          List<PriceDtail>? datapriceDtail = Itemdtail?.map((e) {
+            PriceDtail priceDtail = PriceDtail();
+            priceDtail.dtail = e.dtail!.text;
+            priceDtail.price = e.price!.text;
+            return priceDtail;
+          }).cast<PriceDtail>().toList();
+          productsmodel!.priceDtail = datapriceDtail;
+          networkService.UpdateproductPrice(data: productsmodel).then((value) {
+            CircularProgressIndicator();
+            if (value?.toInt() == 201) {
+              setState(() {
+                Itemdtail!.clear();
+              });
+              ScaffoldMessenger.of(context)
+                ..hideCurrentSnackBar()
+                ..showSnackBar(snackbar(
+                    lable: 'บันทึกข้อมูลเรียบร้อย', bg: ContentType.help));
+            }
+
+            if (value?.toInt() == 503) {
+              ScaffoldMessenger.of(context)
+                ..hideCurrentSnackBar()
+                ..showSnackBar(snackbar(
+                  lable: 'เกิดข้อผิดพลาดบางอย่าง',
+                  message: 'กรุณาติดต่อผู้พัฒนา',
+                ));
+            }
+
+            if (value?.toInt() == 500) {
+              ScaffoldMessenger.of(context)
+                ..hideCurrentSnackBar()
+                ..showSnackBar(snackbar(
+                  lable: 'เกิดข้อผิดพลาดบางอย่าง',
+                  message: 'กรุณาติดต่อผู้พัฒนา',
+                ));
+            }
+          });
+
+          Navigator.of(context).pop();
+        } else {
+          Navigator.of(context).pop();
+        }
+      },
+    );
+  }
+
+  SnackBar snackbar({required String lable, String? message, ContentType? bg}) {
+    return SnackBar(
+      /// need to set following properties for best effect of awesome_snackbar_content
+      elevation: 0,
+      onVisible: () {
+        print(123);
+      },
+      behavior: SnackBarBehavior.fixed,
+      backgroundColor: Colors.transparent,
+      content: AwesomeSnackbarContent(
+        title: '${lable}',
+        message: message ?? '',
+
+        /// change contentType to ContentType.success, ContentType.warning or ContentType.help for variants
+        contentType: bg ?? ContentType.failure,
+      ),
     );
   }
 }

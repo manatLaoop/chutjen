@@ -1,9 +1,18 @@
-// ignore_for_file: prefer_const_constructors, avoid_unnecessary_containers, non_constant_identifier_names, avoid_init_to_null, unnecessary_brace_in_string_interps, prefer_const_literals_to_create_immutables, unnecessary_null_comparison, avoid_returning_null_for_void
+// ignore_for_file: prefer_const_constructors, avoid_unnecessary_containers, non_constant_identifier_names, avoid_init_to_null, unnecessary_brace_in_string_interps, prefer_const_literals_to_create_immutables, unnecessary_null_comparison, avoid_returning_null_for_void, unused_local_variable
 
+import 'dart:developer';
+
+import 'package:chutjen/bloc/Authentication/autentication_bloc.dart';
+import 'package:chutjen/src/model/user_model.dart';
+import 'package:chutjen/src/pages/register/register_page.dart';
+import 'package:chutjen/src/services/network_service.dart';
 import 'package:chutjen/style/style.dart';
 import 'package:chutjen/util/emal_validator.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:chutjen/src/routers/route.dart' as Custom_router;
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Login extends StatefulWidget {
   const Login({Key? key}) : super(key: key);
@@ -18,6 +27,11 @@ class _LoginState extends State<Login> {
   Widget build(BuildContext context) {
     final List<Color> colorsBg = [Color(0xFF45B649), Color(0xFFDCE35B)];
     final List<Color> colorsSingon = [Color(0xFFDCE35B), Colors.white];
+
+    NetworkService networkService = NetworkService();
+    User user = User();
+    TextEditingController email = TextEditingController();
+    TextEditingController password = TextEditingController();
 
     return Scaffold(
       body: SingleChildScrollView(
@@ -83,7 +97,9 @@ class _LoginState extends State<Login> {
                           ),
                           // ..............
                           TextFormField(
-                            onSaved: (value) {},
+                            onSaved: (value) {
+                              email = value.toString() as TextEditingController;
+                            },
                             validator: (email) {
                               if (email == null || email.isEmpty) {
                                 return 'กรุณาระบุอีเมล์';
@@ -106,6 +122,8 @@ class _LoginState extends State<Login> {
                           TextFormField(
                             keyboardType: TextInputType.text,
                             onSaved: (value) {
+                              password =
+                                  value.toString() as TextEditingController;
                               if (value!.isNotEmpty && value != null) {}
                               return null;
                             },
@@ -126,11 +144,40 @@ class _LoginState extends State<Login> {
                           ),
                           Container(
                             child: ElevatedButton.icon(
-                              onPressed: () {
+                              onPressed: () async {
+                                SharedPreferences _pref =
+                                    await SharedPreferences.getInstance();
                                 _formKey.currentState!.save();
                                 if (!_formKey.currentState!.validate()) {
                                   return;
-                                } else {}
+                                } else {
+                                  FutureBuilder<Response>(
+                                    future: networkService.Login(
+                                        gmail: email.text,
+                                        password: password.text),
+                                    builder: ((context,
+                                        AsyncSnapshot<Response> snapshot) {
+                                      if (snapshot.data!.statusCode == 200) {
+                                        if (snapshot.data != null) {
+                                          List<User> userdata = userFromJson(
+                                              snapshot.data.toString());
+
+                                     
+                                          AutenticationBloc()
+                                              .add(Loginsucess());
+                                        }
+                                      }
+
+                                      // if (snapshot.hasError) {
+                                      //   Aletdialog(
+                                      //       statusCode: snapshot
+                                      //           .data.statusCode!
+                                      //           .toInt());
+                                      // }
+                                      return Center();
+                                    }),
+                                  );
+                                }
                               },
                               icon: Icon(Icons.login),
                               label: Text('เข้าสู่ระบบ'),
@@ -167,7 +214,9 @@ class _LoginState extends State<Login> {
                                 ),
                               ),
                               TextButton(
-                                onPressed: () {},
+                                onPressed: () {
+                                  Navigator.pushNamed(context, '/Register');
+                                },
                                 child: Text(
                                   'สมัครสมาชิก',
                                   style: textStyle(
@@ -219,6 +268,7 @@ class _LoginState extends State<Login> {
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               FloatingActionButton(
+                                  heroTag: 'facebook',
                                   onPressed: () {},
                                   backgroundColor: Colors.lightBlue,
                                   child: FaIcon(FontAwesomeIcons.facebook)),
@@ -226,6 +276,7 @@ class _LoginState extends State<Login> {
                                 width: 15,
                               ),
                               FloatingActionButton(
+                                heroTag: 'google',
                                 onPressed: () {},
                                 backgroundColor: Colors.red[400],
                                 child: FaIcon(FontAwesomeIcons.google),
@@ -245,6 +296,20 @@ class _LoginState extends State<Login> {
           ],
         ),
       ),
+    );
+  }
+
+  AlertDialog Aletdialog({required int statusCode}) {
+    return AlertDialog(
+      title: Text('ไม่พบข้อมูลผู้ใช้งาน'),
+      content: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Icon(FontAwesomeIcons.peopleLine, size: 50),
+        ],
+      ),
+      actions: [],
     );
   }
 

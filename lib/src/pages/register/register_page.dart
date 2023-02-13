@@ -1,10 +1,13 @@
 // ignore_for_file: prefer_const_constructors, non_constant_identifier_names, unnecessary_brace_in_string_interps, unnecessary_null_comparison, curly_braces_in_flow_control_structures, unnecessary_string_interpolations, unnecessary_cast, prefer_is_empty, await_only_futures
 
+import 'dart:ffi';
 import 'dart:io';
 // import 'dart:ui';
 
+import 'package:chutjen/bloc/Authentication/autentication_bloc.dart';
 import 'package:chutjen/bloc/address/address_bloc.dart';
 import 'package:chutjen/src/constants/url.dart';
+import 'package:chutjen/src/model/Token.dart';
 import 'package:chutjen/src/model/address_model.dart';
 import 'package:chutjen/src/model/user_model.dart';
 import 'package:chutjen/src/services/network_service.dart';
@@ -14,6 +17,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:image_picker/image_picker.dart';
+
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Register extends StatefulWidget {
   const Register({Key? key}) : super(key: key);
@@ -236,7 +241,7 @@ class _RegisterState extends State<Register> {
                           !_FormStateprovince.currentState!.validate()) {
                         return;
                       } else {
-                        userregister();
+                        userRegister(context);
                       }
                     },
                     icon: FaIcon(FontAwesomeIcons.penToSquare),
@@ -401,15 +406,51 @@ class _RegisterState extends State<Register> {
   }
 
 // ...................
-  void userregister() {
-    // print(usermodel!.email);
-    // print(usermodel!.password);
-    // print(usermodel!.genders);
-    // print(usermodel!.provinces);
-    // print(usermodel!.amphures);
-    // print(usermodel!.tambons);
-    // print(usermodel!.nameLastname);
-    networkService.Register(user: usermodel!, imageProfile: _fileimage);
+
+  userRegister(BuildContext context) async {
+    // networkService.Registers(user: usermodel!, imageProfile: _fileimage)
+    //     .then((value) async {
+    //      if(){
+
+    //      }
+    // });
+
+    // FutureBuilder<bool>(
+    //   future:
+    //   builder: ((context, snapshot) {
+    //     print(snapshot);
+
+    //     if (snapshot.hasData) {
+    //       if (snapshot.data == true) {}
+    //     }
+
+    //     if (snapshot.hasError) {
+    //       AlertDialog(
+    //         title: Text('เกิดข้อผิดพลาด'),
+    //         content: Text('${snapshot.hasError}'),
+    //         actions: [TextButton(onPressed: () {}, child: Text('close'))],
+    //       );
+    //     }
+    //     return Center(
+    //       child: CircularProgressIndicator(),
+    //     );
+    //   }),
+    // );
+
+    //     'status': true,
+    // 'Statuscode': response.statusCode,
+    // 'message': response.statusMessage,
+
+    await networkService.Registers(
+      user: usermodel!,
+      imageProfile: _fileimage,
+    ).then((value) {
+      if (value['status'] == true) {
+        context.read<AutenticationBloc>().add(Loginsucess());
+      } else {
+        AutenticationBloc().add(Logout());
+      }
+    });
   }
 
   InputDecoration Inpudecorator({String? lable, Icon? icons, Color? colors}) {

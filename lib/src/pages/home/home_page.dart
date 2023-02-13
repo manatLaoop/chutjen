@@ -1,5 +1,8 @@
 // ignore_for_file: prefer_const_literals_to_create_immutables, prefer_const_constructors
 
+import 'dart:ffi';
+
+import 'package:chutjen/src/pages/home/widget/datafor_homepage.dart';
 import 'package:chutjen/style/style.dart';
 import 'package:flutter/material.dart';
 
@@ -17,41 +20,33 @@ class _Home_pageState extends State<Home_page> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      child: SingleChildScrollView(
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            factoryItem(),
-            Padding(
-              padding: const EdgeInsets.all(5.0),
-              child: Container(
-                color: Colors.lightGreen,
-                child: Padding(
-                  padding: const EdgeInsets.fromLTRB(8, 10, 8, 10),
-                  child: Row(
-                    children: [
-                      Text(
-                        'ราคาล่าสุด',
-                        style: headerStyle(
-                            fontSize: 18, fontWeight: FontWeight.bold),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            ),
-            Flexible(
-              child: ListView.builder(
-                itemCount: 20,
-                physics: NeverScrollableScrollPhysics(),
-                shrinkWrap: true,
-                itemBuilder: (context, index) {
-                  return CardproductPrice(cardcolors: Colors.redAccent);
-                },
-              ),
-            ),
-          ],
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+          colors: [Colors.black, Colors.black12],
         ),
+      ),
+      child: CustomScrollView(
+        slivers: [
+          SliverList(
+            delegate: SliverChildBuilderDelegate((context, index) {
+              return factoryItem();
+            }, childCount: 1),
+          ),
+          SliverList(
+            delegate: SliverChildBuilderDelegate((context, index) {
+              return Column(
+                children: [
+                  Container(
+                    child: Text('รายการอัปเดตล่าสุด'),
+                  ),
+                  Container(
+                    child: datatable(),
+                  )
+                ],
+              );
+            }, childCount: 1),
+          ),
+        ],
       ),
     );
 
@@ -104,155 +99,6 @@ class _Home_pageState extends State<Home_page> {
                     ),
                   ));
             }),
-      ),
-    );
-  }
-
-  Card CardproductPrice({Color? cardcolors}) {
-    return Card(
-      color: Colors.lightGreen,
-      child: Container(
-        child: Padding(
-          padding: const EdgeInsets.only(top: 10),
-          child: Column(
-            children: [
-              Container(
-                color: Colors.lightGreen,
-                child: Padding(
-                  padding: padding(t: 12, b: 12),
-                  child: Row(
-                    children: [
-                      Text('data'),
-                    ],
-                  ),
-                ),
-              ),
-              SingleChildScrollView(
-                scrollDirection: Axis.horizontal,
-                child: Container(
-                  color: Colors.white,
-                  child: ConstrainedBox(
-                    constraints: BoxConstraints(
-                      minWidth: MediaQuery.of(context).size.width,
-                    ),
-                    child: DataTable(
-                      columns: <DataColumn>[
-                        DataColumn(
-                          label: Text('ลำดับ'),
-                        ),
-                        DataColumn(
-                          label: Text('ความชื่น'),
-                        ),
-                        DataColumn(
-                          label: Text(
-                            'ราคาก่อนหน้า',
-                            textAlign: TextAlign.center,
-                          ),
-                        ),
-                        DataColumn(
-                          label: Text(
-                            'ราคาล่าสุด',
-                          ),
-                        ),
-                        DataColumn(
-                          label: Text('เทียบ'),
-                        ),
-                      ],
-                      // ignore: prefer_const_literals_to_create_immutables
-                      rows: <DataRow>[
-                        DataRow(
-                          // ignore: prefer_const_literals_to_create_immutables
-                          cells: [
-                            DataCell(
-                              Container(
-                                  alignment: Alignment.center,
-                                  child: Text('1')),
-                            ),
-                            DataCell(
-                              Container(
-                                alignment: Alignment.center,
-                                child: Text(
-                                  '10.0',
-                                  textAlign: TextAlign.center,
-                                ),
-                              ),
-                            ),
-                            DataCell(
-                              Center(child: Text('9.5')),
-                            ),
-                            DataCell(
-                              Center(child: Text('9.50')),
-                            ),
-                            DataCell(
-                              Icon(Icons.trending_up, color: Colors.lightGreen),
-                            ),
-                          ],
-                        ),
-                        DataRow(
-                          // ignore: prefer_const_literals_to_create_immutables
-                          cells: [
-                            DataCell(
-                              Container(
-                                  alignment: Alignment.center,
-                                  child: Text('1')),
-                            ),
-                            DataCell(
-                              Container(
-                                alignment: Alignment.center,
-                                child: Text(
-                                  '10.0',
-                                  textAlign: TextAlign.center,
-                                ),
-                              ),
-                            ),
-                            DataCell(
-                              Center(child: Text('9.50')),
-                            ),
-                            DataCell(
-                              Center(child: Text('9.50')),
-                            ),
-                            DataCell(
-                              Icon(Icons.remove, color: Colors.lightBlue),
-                            ),
-                          ],
-                        ),
-                        DataRow(
-                          // ignore: prefer_const_literals_to_create_immutables
-                          cells: [
-                            DataCell(
-                              Container(
-                                  alignment: Alignment.center,
-                                  child: Text('1')),
-                            ),
-                            DataCell(
-                              Container(
-                                alignment: Alignment.center,
-                                child: Text(
-                                  '10.0',
-                                  textAlign: TextAlign.center,
-                                ),
-                              ),
-                            ),
-                            DataCell(
-                              Center(child: Text('10.50')),
-                            ),
-                            DataCell(
-                              Center(child: Text('9.50')),
-                            ),
-                            DataCell(
-                              Icon(Icons.trending_down,
-                                  color: Colors.redAccent),
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              ),
-            ],
-          ),
-        ),
       ),
     );
   }

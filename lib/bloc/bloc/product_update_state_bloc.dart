@@ -8,10 +8,11 @@ class ProductUpdateStateBloc
     extends Bloc<ProductUpdateStateEvent, ProductUpdateStateInitial> {
   ProductUpdateStateBloc()
       : super(ProductUpdateStateInitial(Updatestate: false)) {
-    on<ProductUpdateStateEventconfirm>((event, emit) {
+    on<ProductUpdateStateEventconfirm>((event, emit) async* {
+          
       emit(state.copywith(status: true));
     });
-    on<ProductUpdateStateEventCancel>((event, emit) {
+    on<ProductUpdateStateEventCancel>((event, emit) async* {
       emit(state.copywith(status: false));
     });
   }

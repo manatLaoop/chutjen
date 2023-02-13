@@ -1,5 +1,6 @@
 // ignore_for_file: prefer_const_constructors, unnecessary_string_interpolations, avoid_print, non_constant_identifier_names, camel_case_types, avoid_unnecessary_containers
 
+import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 import 'package:chutjen/src/model/product_Edit_model.dart';
 import 'package:chutjen/src/model/product_model.dart';
 import 'package:chutjen/src/services/network_service.dart';
@@ -31,75 +32,6 @@ class modeltest {
   modeltest({required String this.name, required String this.age});
   final String name;
   final String age;
-}
-
-Widget Alertdialog(
-    {required BuildContext context,
-    required String lable,
-    required Productsmodel productsmodel,
-    required List<ProductModelcontroller> Itemdtail}) {
-  return Stack(children: [
-    Container(
-      color: Colors.black45,
-    ),
-    AlertDialog(
-      backgroundColor: Colors.white,
-      title: Text("ยืนยันรายการอัปเดต"),
-      content: Container(
-        child: SizedBox(
-          height: 50,
-          child: Center(
-              child: Text(
-            '$lable',
-            style: headerStyle(colors: Colors.lightGreen),
-          )),
-        ),
-      ),
-      actions: <Widget>[
-        btnConfirm(
-          context,
-          title: 'ยกเลิก',
-          colros: Colors.redAccent,
-          stateChange: false,
-        ),
-        btnConfirm(context,
-            title: 'ยืนยัน',
-            colros: Colors.lightGreen,
-            stateChange: true,
-            Itemdtail: Itemdtail,
-            productsmodel: productsmodel),
-      ],
-    ),
-  ]);
-}
-
-TextButton btnConfirm(BuildContext context,
-    {required String title,
-    required Color colros,
-    required bool stateChange,
-    List<ProductModelcontroller>? Itemdtail,
-    Productsmodel? productsmodel}) {
-  return TextButton(
-    child: Text(
-      '$title',
-      style: headerStyle(colors: colros, fontSize: 18),
-    ),
-    onPressed: () {
-      if (stateChange == true) {
-        List<PriceDtail>? datapriceDtail = Itemdtail?.map((e) {
-          PriceDtail priceDtail = PriceDtail();
-          priceDtail.dtail = e.dtail!.text;
-          priceDtail.price = e.price!.text;
-          return priceDtail;
-        }).cast<PriceDtail>().toList();
-        productsmodel!.priceDtail = datapriceDtail;
-        networkService.UpdateproductPrice(data: productsmodel);
-        Navigator.of(context).pop();
-      } else {
-        Navigator.of(context).pop();
-      }
-    },
-  );
 }
 
 Expanded tableHeader({String? lable}) {

@@ -32,7 +32,7 @@ class _Index_pageState extends State<Index_page> {
       ]),
       body: contentItem[_selectedIndex],
       drawer: SafeArea(
-        child: drawer(),
+        child: drawer(context: context),
       ),
       bottomNavigationBar: BottomNavigationBar(
         iconSize: 30,

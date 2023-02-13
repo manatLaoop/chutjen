@@ -1,11 +1,12 @@
 // ignore_for_file: prefer_const_constructors
 
+import 'package:chutjen/bloc/Authentication/autentication_bloc.dart';
 import 'package:flutter/material.dart';
 
 String imgProfie =
     'https://images.unsplash.com/flagged/photo-1570612861542-284f4c12e75f?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8M3x8cGVyc29ufGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=500&q=60';
 
-Drawer drawer() {
+Drawer drawer({required BuildContext context}) {
   return Drawer(
     child: Column(
       // ignore: prefer_const_literals_to_create_immutables
@@ -25,7 +26,9 @@ Drawer drawer() {
         ListTile(
           leading: Icon(Icons.logout),
           title: Text('ออกจากระบบ'),
-          onTap: () {},
+          onTap: () {
+            AutenticationBloc().add(Logout());
+          },
         ),
       ],
     ),
